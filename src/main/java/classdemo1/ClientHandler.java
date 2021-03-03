@@ -23,7 +23,11 @@ class ClientHandler extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        protocol2();
+        try {
+            protocol2();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public ClientHandler(Socket client) {
@@ -42,15 +46,12 @@ class ClientHandler extends Thread {
         pw.printf("Hej %s \n", name);
     }
 
-    public void protocol2(){
+    public void protocol2() throws IOException {
+        pw.println("Please insert a command");
+        String choice = br.readLine();
 
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
 
-        switch (choice){
-            case "close":
-                close();
-                break;
+        switch (choice) {
 
             case "upper":
                 upper();
@@ -69,20 +70,34 @@ class ClientHandler extends Thread {
                 break;
 
             default:
-                throw new IllegalStateException("Unexpected value: " + scanner);
-        };
+                throw new IllegalStateException("Unexpected value: ");
+        }
     }
 
 
+    private void upper() throws IOException {
+        pw.println("Please enter the word you want uppercased");
+        String uppercased = br.readLine();
+        pw.println(uppercased.toUpperCase());
+    }
 
+    private void lower() throws IOException {
+        pw.println("Please enter the word you want lowercased");
+        String lowercased = br.readLine();
+        pw.println(lowercased.toLowerCase());
+    }
 
+    private void reverse() throws IOException {
+        pw.println("Please enter the work you want reversed");
+        String reversed = br.readLine();
 
-    private void close(){};
-    private void upper(){};
-    private void lower(){};
-    private void reverse(){};
-    private void translate(){};
+        StringBuilder sb = new StringBuilder(reversed);
+        pw.println(sb.reverse());
+    }
 
+    private void translate() {
+        pw.println("Translate");
+    }
 
     /*
     public void protocol() throws IOException {
